@@ -8,8 +8,8 @@ import (
 	"github.com/cenkalti/backoff/v4"
 	"github.com/pkg/errors"
 	"github.com/uptrace/bun/driver/pgdriver"
-	gorm_pg "gorm.io/driver/postgres"
-	gorm_lib "gorm.io/gorm"
+	gormpg "gorm.io/driver/postgres"
+	gormlib "gorm.io/gorm"
 )
 
 type GormPostgresConfig struct {
@@ -22,11 +22,11 @@ type GormPostgresConfig struct {
 }
 
 type Gorm struct {
-	DB     *gorm_lib.DB
+	DB     *gormlib.DB
 	config *GormPostgresConfig
 }
 
-func NewGorm(config *GormPostgresConfig) (*gorm_lib.DB, error) {
+func NewGorm(config *GormPostgresConfig) (*gormlib.DB, error) {
 
 	var dataSourceName string
 
@@ -52,11 +52,11 @@ func NewGorm(config *GormPostgresConfig) (*gorm_lib.DB, error) {
 	bo.MaxElapsedTime = 10 * time.Second
 	maxRetries := 5
 
-	var gormDb *gorm_lib.DB
+	var gormDb *gormlib.DB
 
 	err = backoff.Retry(func() error {
 
-		gormDb, err = gorm_lib.Open(gorm_pg.Open(dataSourceName), &gorm_lib.Config{})
+		gormDb, err = gormlib.Open(gormpg.Open(dataSourceName), &gormlib.Config{})
 
 		if err != nil {
 			return errors.Errorf("failed to connect postgres: %v and connection information: %s", err, dataSourceName)
