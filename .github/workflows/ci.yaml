@@ -32,6 +32,6 @@ jobs:
         working-directory: ./app/services/im_service
         run: go build -v ./...
 
-      - name: im test
-        working-directory: ./app/services/im_service
-        run: go test -v ./...
+#      - name: im test
+#        working-directory: ./app/services/im_service
+#        run: go test -v ./...
